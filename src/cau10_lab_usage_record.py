@@ -1,21 +1,26 @@
 from datetime import datetime
+
 ma_phien = input("Nhập mã phiên: ")
 ma_may = input("Nhập mã máy: ")
 cong_suat_w = float(input("Nhập công suất thiết bị (W): "))
-thoi_gian_phut = float(input("Nhập thời gian sử dụng (phút): "))
-don_gia_dien = float(input("Nhập đơn giá điện (VND/kWh): "))
+thoi_luong_phut = int(input("Nhập thời gian sử dụng (phút): "))
+don_gia_kwh = float(input("Nhập đơn giá điện (VND/kWh): "))
 
-dien_nang_kwh = (cong_suat_w / 1000) * (thoi_gian_phut / 60)
-chi_phi_vnd = dien_nang_kwh * don_gia_dien
-tren_60_phut = thoi_gian_phut > 60
-thoi_diem_hien_tai = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+so_gio = thoi_luong_phut // 60
+so_phut_le = thoi_luong_phut % 60
+dien_nang_kwh = cong_suat_w * thoi_luong_phut / 60 / 1000
+chi_phi = dien_nang_kwh * don_gia_kwh
 
-print("\n--- ket qua  ---")
-print(f"ma phien: {ma_phien}")
-print(f"may: {ma_may}")
-print(f"con suat: {cong_suat_w:.2f} W")
-print(f"thoi luong: {thoi_gian_phut:.0f} phút")
-print(f"dien nang: {dien_nang_kwh:.3f} kWh")
-print(f"chi phi: {chi_phi_vnd:.2f} VND")
-print(f"tran 60 phut: {tren_60_phut}")
-print(f"ghi nhan luc: {thoi_diem_hien_tai}")
+tren_60_phut = thoi_luong_phut > 60
+du_lieu_hop_le = (cong_suat_w > 0) and (thoi_luong_phut > 0) and (don_gia_kwh > 0)
+thoi_diem_ghi_nhan = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+print(f"Mã phiên: {ma_phien}")
+print(f"Máy: {ma_may}")
+print(f"Công suất: {cong_suat_w:.2f} W")
+print(f"Thời lượng: {thoi_luong_phut} phút ({so_gio} giờ {so_phut_le} phút)")
+print(f"Điện năng: {dien_nang_kwh:.3f} kWh")
+print(f"Chi phí: {chi_phi:.2f} VND")
+print(f"Trên 60 phút: {tren_60_phut}")
+print(f"Dữ liệu hợp lệ: {du_lieu_hop_le}")
+print(f"Ghi nhận lúc: {thoi_diem_ghi_nhan}")
